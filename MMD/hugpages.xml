@@ -1,0 +1,43 @@
+<meta_metadata_repository name="hubpages" package="ecologylab.semantics.generated.library" default_user_agent_name="chrome_2">
+
+	<meta_metadata name="comments_hub" extends="compound_document" comment="The definition of genre type">
+	
+		<scalar name="author_name" scalar_type="String" comment="comment_content" />
+         <scalar name="comment_content" scalar_type="String" comment="comment_content" />
+			
+	</meta_metadata>
+	
+
+	<meta_metadata name="hubpages_report" extends="compound_document" comment="The definition of hubpages report class.">
+		 <scalar name="hub_score" scalar_type="String" comment="The Hub score" />
+         <scalar name="author" scalar_type="String" comment="The creator" />
+		 <scalar name="title" scalar_type="String" comment="The Title" />
+		 <scalar name="content" scalar_type="String" comment="Extracted Content"  />
+		 <collection name="genres" child_type="comments_hub" generate_class="false" />
+
+	</meta_metadata>
+	
+	
+	
+	<meta_metadata name="wu_hubpages_report" type="hubpages_report" parser="xpath">
+	
+		<selector url_path_tree="http://hubpages.com/hub/" domain="hubpages.com"/>
+		
+		 <scalar name="hub_score" xpath="//span[@title='hubscore']"  />
+		
+		<scalar name="author" xpath="//p[@class='author']/a"  />
+		
+		<scalar name="title" xpath="//div[@id='hubtitle']/h1"  />
+		 
+		 <scalar name="content"  xpath="//div[@id='content']/div[contains(@class,'full')]"  />
+		  
+		 <collection name="genres" xpath="//div[@id='content']/div[contains(@class,'full')]/div[contains(@class,'moduleComment')]/div[contains(@class,'comment') and @class!='more_comments']" >
+						
+			     <scalar name="author_name" xpath="./p[@class='comment_meta']/strong" />
+                 <scalar name="comment_content" xpath="./p[2]" />
+         
+		 </collection>
+		
+	</meta_metadata>
+
+</meta_metadata_repository>

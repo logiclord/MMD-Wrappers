@@ -1,0 +1,110 @@
+<meta_metadata_repository name="ebay" package="ecologylab.semantics.generated.library.ebay" default_user_agent_name="chrome_2">
+
+	<meta_metadata name="sellor_info" extends="compound_document" comment="The definition of genre sellor type type">
+	
+		<scalar name="sellor_name" scalar_type="String" comment="sellor name" />
+        <scalar name="feeback" scalar_type="String" comment="feedback score" />
+		<scalar name="positive" scalar_type="String" comment="percentage of positive feedback" />
+		
+	</meta_metadata>
+	
+	<meta_metadata name="other_info" extends="compound_document" comment="The definition of genre sellor type type">
+	
+		<scalar name="item_number" scalar_type="String" comment="Item number" />
+       <scalar name="item_location" scalar_type="String" comment="Item location" />
+		<scalar name="ships_to" scalar_type="String" comment="ships item to" />
+		
+	</meta_metadata>
+
+	<meta_metadata name="ebay_report" extends="compound_document" comment="The definition of ebay report class.">
+
+		 <scalar name="product_name" scalar_type="String" comment="Name of product" />
+	   	<scalar name="condition" scalar_type="String" comment="Condition of product" />
+		 <scalar name="quantity_available" scalar_type="String" comment="available quantity" />
+		 <scalar name="price" scalar_type="String" comment="price"  />
+		 <scalar name="image" scalar_type="ParsedURL" comment="url of product preview"  />
+		 <scalar name="shipping_cost" scalar_type="String" comment="Shipping cost"  />
+		 <scalar name="shipping_type" scalar_type="String" comment="Shipping type"  />
+		 <scalar name="return_details" scalar_type="String" comment="Returning details"  />
+		 <collection name="sellor_info_genres" child_type="sellor_info"  />
+		 <collection name="other_info_genres" child_type="other_info"  />
+		  
+	</meta_metadata>
+	
+	<meta_metadata name="ebay_search_node" extends="compound_document" comment="The definition of ebay search node class.">
+
+		 <scalar name="product_name" scalar_type="String" comment="Name of product" />
+		 <scalar name="mode_available" scalar_type="String" comment="available quantity" />
+		 <scalar name="price" scalar_type="String" comment="price"  />
+		 <scalar name="image" scalar_type="ParsedURL" comment="url of product preview"  />
+
+	</meta_metadata>
+	
+	<meta_metadata name="ebay_search_report" extends="compound_document" comment="The definition of ebay search report class.">
+			
+			<collection name="genres" child_type="ebay_search_node" generate_class="false" />
+			
+	</meta_metadata>
+	
+	
+	<meta_metadata name="ebay_search_page" type="ebay_search_report" parser="xpath">
+	
+	<selector url_path_tree="http://shop.ebay.com" domain="shop.ebay.com"  />
+	
+
+		 <collection name="genres" xpath="//table[@class='li']" >
+						
+			 <scalar name="product_name" xpath="./tr/td[2]/div[1]/a" />
+	     	 <scalar name="mode_available" xpath="./tr/td[4]" />
+			 <scalar name="price" xpath="./tr/td[5]" />
+			 <scalar name="image" xpath="./tr/td[1]/a/img/@src"  />
+		
+		 </collection>
+	
+	
+	</meta_metadata>
+	
+	
+	<meta_metadata name="ebay_instant_buy_page" type="ebay_report" parser="xpath">
+	
+		<selector url_path_tree="http://cgi.ebay.com" domain="cgi.ebay.com"  />
+		
+		<scalar name="product_name" xpath="//h1[@class='vi-is1-titleH1']"  />
+	
+        <scalar name="condition" xpath="//span[@class='vi-is1-condText']" />
+		
+		<scalar name="quantity_available" xpath="//span[@class='vi-is1-mqtyDiv']" />
+		
+		<scalar name="price" xpath="//span[@class='vi-is1-prcp']" />
+
+		<scalar name="image" xpath="//div[@class='ic-w300 ic-m']/center/img/@src"  />
+
+		<scalar name="shipping_cost" xpath="//span[@id='fshippingCost']" />
+		
+		<scalar name="shipping_type" xpath="//span[@id='fshippingSvc']" />
+		
+		<scalar name="return_details" xpath="//td[@class='vi-rpd-miyContent']/text()"/>
+		
+		
+	
+		<collection name="sellor_info_genres" xpath="//table[contains(@class,'s-content')]" >
+			
+			<scalar name="feeback" xapth=".//a[@class='mbg-fb']" />		
+			<scalar name="sellor_name" xpath=".//span[@class='mbg-nw']" />
+			<scalar name="positive" xapth=".//span[@class='s-gray z_a']" />
+        
+		 </collection>
+		
+
+		<collection name="other_info_genres" xpath="//table[@class='sp1']" >
+				
+			<scalar name="item_number" xpath="./tr[1]/td[2]" />
+			<scalar name="item_location" xpath="./tr[2]/td[2]" />
+			<scalar name="ships_to" xpath="./tr[3]/td[2]/text()" />
+
+		</collection>
+		
+		
+	</meta_metadata>
+
+</meta_metadata_repository>
